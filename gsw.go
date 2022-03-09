@@ -71,16 +71,16 @@ func tty_cencer(start time.Time) {
 	cancel := make(chan struct{})
 
 	for {
+		go time_cout(start, cancel)
+		message_press_ent()
 		r, err := tty.ReadRune()
 		if err != nil {
 			log.Fatal(err)
 		}
-		go time_cout(start, cancel)
 		if r == 13 {
 			close(cancel)
 			return
 		}
-		message_press_ent()
 	}
 }
 
@@ -136,7 +136,7 @@ func drawTimeRecord() {
 
 func main() {
 	start := time.Now()
-
+	//clear()
 	for {
 		clear()
 		tty_cencer(start)
